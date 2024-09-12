@@ -321,7 +321,7 @@ namespace CTClient
                     LegendItems.Add((defectName.Key, color));
                     var count = GetDefectMap(vm.CurrentDay, defectName.Key)?.Count ?? 0;
                     totalCount += count;
-                    var value = Math.Max(.0000001, count);
+                    var value = Math.Max(.00000001, count);
                     slices.Add(new PieSlice() { Value = value, FillColor = color, LabelFontColor = color });
                 }
 
