@@ -1,0 +1,272 @@
+﻿<UserControl
+    x:Class="CTClient.DefectInfoView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:converters="clr-namespace:CTClient.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+    xmlns:local="clr-namespace:CTClient"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    x:Name="_this"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    DataContext="{Binding RelativeSource={RelativeSource Mode=Self}, Path=.}"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <converters:DefectGalleryDisplayModeConverter x:Key="DefectGalleryDisplayModeConverter" />
+            <converters:RectConverter x:Key="RectConverter" />
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <ScrollViewer Height="{Binding ElementName=_this, Path=ActualHeight}" VerticalScrollBarVisibility="Hidden">
+        <Grid>
+            <ItemsControl
+                ItemsSource="{Binding NewestDefectQueue, Mode=OneWay}"
+                ScrollViewer.CanContentScroll="True"
+                ScrollViewer.VerticalScrollBarVisibility="Auto"
+                Visibility="{Binding GalleryDisplayMode, Converter={StaticResource DefectGalleryDisplayModeConverter}, ConverterParameter={x:Static local:DefectGalleryDisplayMode.Newest}}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <UniformGrid
+                            Height="{Binding ElementName=_this, Path=ActualHeight}"
+                            Columns="{Binding NewestDefectColCount}"
+                            Rows="{Binding NewestDefectRowCount}" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate DataType="{x:Type local:DefectInfo}">
+                        <Label
+                            x:Name="defectLbl"
+                            Margin="2,2"
+                            Background="Transparent"
+                            BorderThickness="1">
+                            <Label.BorderBrush>
+                                <SolidColorBrush Color="{Binding BackColor}" />
+                            </Label.BorderBrush>
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="MouseLeftButtonUp" SourceObject="{Binding ElementName=defectLbl}">
+                                    <i:InvokeCommandAction Command="{x:Static local:ApplicationCommands.DisplayDefectDetailCommand}" CommandParameter="{Binding DetailId}" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                            <Grid Margin="6">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <Grid Margin="0,0,0,6">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <Image
+                                        Width="108"
+                                        Source="{x:Static local:AppSettings.Logo}"
+                                        Stretch="Uniform" />
+                                    <StackPanel Grid.Column="2" VerticalAlignment="Center">
+                                        <TextBlock
+                                            HorizontalAlignment="Center"
+                                            FontSize="14"
+                                            FontWeight="Bold"
+                                            Foreground="#44546F">
+                                            <Run Text="卷号:" />
+                                            <Run Text="{Binding RollNo}" />
+                                        </TextBlock>
+                                        <TextBlock
+                                            Margin="0,4,0,0"
+                                            HorizontalAlignment="Center"
+                                            FontSize="14"
+                                            Foreground="#44546F"
+                                            Text="{Binding CreateTime, StringFormat='yyyy-MM-dd HH:mm:ss'}" />
+                                    </StackPanel>
+                                </Grid>
+
+                                <Image
+                                    x:Name="img"
+                                    Grid.Row="1"
+                                    Source="{Binding Source}"
+                                    Stretch="Fill"
+                                    StretchDirection="Both">
+                                    <Image.Clip>
+                                        <RectangleGeometry RadiusX="8" RadiusY="8">
+                                            <RectangleGeometry.Rect>
+                                                <MultiBinding Converter="{StaticResource RectConverter}">
+                                                    <Binding ElementName="img" Path="ActualWidth" />
+                                                    <Binding ElementName="img" Path="ActualHeight" />
+                                                </MultiBinding>
+                                            </RectangleGeometry.Rect>
+                                        </RectangleGeometry>
+                                    </Image.Clip>
+                                </Image>
+                                <Border
+                                    Grid.Row="2"
+                                    Margin="0,4"
+                                    Padding="0,4"
+                                    HorizontalAlignment="Stretch"
+                                    CornerRadius="6">
+                                    <Border.Background>
+                                        <SolidColorBrush Color="{Binding BackColor}" />
+                                    </Border.Background>
+                                    <TextBlock
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        FontSize="12"
+                                        FontWeight="Bold">
+                                        <TextBlock.Text>
+                                            <MultiBinding StringFormat="{}{0}    {1}">
+                                                <Binding Path="Position" />
+                                                <Binding Path="DefectTitle" />
+                                            </MultiBinding>
+                                        </TextBlock.Text>
+                                        <TextBlock.Foreground>
+                                            <SolidColorBrush Color="{Binding ForeColor}" />
+                                        </TextBlock.Foreground>
+                                    </TextBlock>
+                                </Border>
+                                <TextBlock
+                                    Grid.Row="3"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    FontFamily="Segoe UI"
+                                    FontSize="14"
+                                    Foreground="#44546F">
+                                    <TextBlock.Text>
+                                        <MultiBinding StringFormat="{}宽度:{0:N2}mm  深度:{1:N2}mm">
+                                            <Binding Path="DefectWidth" />
+                                            <Binding Path="DefectDepth" />
+                                        </MultiBinding>
+                                    </TextBlock.Text>
+                                </TextBlock>
+                            </Grid>
+                        </Label>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+
+            <ItemsControl
+                ItemsSource="{Binding CurrentDefectList, Mode=OneWay}"
+                ScrollViewer.CanContentScroll="True"
+                ScrollViewer.VerticalScrollBarVisibility="Auto"
+                Visibility="{Binding GalleryDisplayMode, Converter={StaticResource DefectGalleryDisplayModeConverter}, ConverterParameter={x:Static local:DefectGalleryDisplayMode.Current}}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate DataType="{x:Type local:DefectInfo}">
+                        <Label
+                            x:Name="defectLbl"
+                            Width="284"
+                            Height="380"
+                            Margin="2,2"
+                            Background="Transparent"
+                            BorderThickness="1">
+                            <Label.BorderBrush>
+                                <SolidColorBrush Color="{Binding BackColor}" />
+                            </Label.BorderBrush>
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="MouseLeftButtonUp" SourceObject="{Binding ElementName=defectLbl}">
+                                    <i:InvokeCommandAction Command="{x:Static local:ApplicationCommands.DisplayDefectDetailCommand}" CommandParameter="{Binding DetailId}" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                            <Grid Margin="6">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <Grid Margin="0,0,0,6">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <Image
+                                        Width="108"
+                                        Source="{x:Static local:AppSettings.Logo}"
+                                        Stretch="Uniform" />
+                                    <StackPanel Grid.Column="2" VerticalAlignment="Center">
+                                        <TextBlock
+                                            HorizontalAlignment="Center"
+                                            FontSize="14"
+                                            FontWeight="Bold"
+                                            Foreground="#44546F">
+                                            <Run Text="卷号:" />
+                                            <Run Text="{Binding RollNo}" />
+                                        </TextBlock>
+                                        <TextBlock
+                                            Margin="0,4,0,0"
+                                            HorizontalAlignment="Center"
+                                            FontSize="14"
+                                            Foreground="#44546F"
+                                            Text="{Binding CreateTime, StringFormat='yyyy-MM-dd HH:mm:ss'}" />
+                                    </StackPanel>
+                                </Grid>
+                                <Image
+                                    x:Name="img"
+                                    Grid.Row="1"
+                                    Source="{Binding Source}"
+                                    Stretch="Fill"
+                                    StretchDirection="Both">
+                                    <Image.Clip>
+                                        <RectangleGeometry RadiusX="8" RadiusY="8">
+                                            <RectangleGeometry.Rect>
+                                                <MultiBinding Converter="{StaticResource RectConverter}">
+                                                    <Binding ElementName="img" Path="ActualWidth" />
+                                                    <Binding ElementName="img" Path="ActualHeight" />
+                                                </MultiBinding>
+                                            </RectangleGeometry.Rect>
+                                        </RectangleGeometry>
+                                    </Image.Clip>
+                                </Image>
+                                <Border
+                                    Grid.Row="2"
+                                    Margin="0,4"
+                                    Padding="0,4"
+                                    HorizontalAlignment="Stretch"
+                                    CornerRadius="6">
+                                    <Border.Background>
+                                        <SolidColorBrush Color="{Binding BackColor}" />
+                                    </Border.Background>
+                                    <TextBlock
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        FontSize="12"
+                                        FontWeight="Bold">
+                                        <TextBlock.Text>
+                                            <MultiBinding StringFormat="{}{0}    {1}">
+                                                <Binding Path="Position" />
+                                                <Binding Path="DefectTitle" />
+                                            </MultiBinding>
+                                        </TextBlock.Text>
+                                        <TextBlock.Foreground>
+                                            <SolidColorBrush Color="{Binding ForeColor}" />
+                                        </TextBlock.Foreground>
+                                    </TextBlock>
+                                </Border>
+                                <TextBlock
+                                    Grid.Row="3"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    FontFamily="Segoe UI"
+                                    FontSize="14"
+                                    Foreground="#44546F">
+                                    <TextBlock.Text>
+                                        <MultiBinding StringFormat="{}宽度:{0:N2}mm  深度:{1:N2}mm">
+                                            <Binding Path="DefectWidth" />
+                                            <Binding Path="DefectDepth" />
+                                        </MultiBinding>
+                                    </TextBlock.Text>
+                                </TextBlock>
+                            </Grid>
+                        </Label>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </Grid>
+    </ScrollViewer>
+</UserControl>

@@ -1,0 +1,144 @@
+﻿<Window
+    x:Class="CTClient.CommonAlarmDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+    xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+    xmlns:local="clr-namespace:CTClient"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="CommonDialog"
+    Width="1440"
+    Height="520"
+    d:DataContext="{d:DesignInstance Type=local:CommonAlarmDialog}"
+    AllowsTransparency="True"
+    Background="Transparent"
+    DataContext="{Binding RelativeSource={RelativeSource Mode=Self}, Path=.}"
+    ResizeMode="NoResize"
+    WindowStartupLocation="CenterOwner"
+    WindowState="Normal"
+    WindowStyle="None"
+    mc:Ignorable="d">
+    <Border Background="White" CornerRadius="12">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="60" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid Margin="10,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Grid Margin="0,8">
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <TextBlock
+                        FontFamily=" Microsoft YaHei"
+                        FontSize="14"
+                        Foreground="#22272B">
+                        <TextBlock.Text>
+                            <MultiBinding StringFormat="{}{0}  {1:yyyy-MM-dd HH:mm:ss}">
+                                <Binding Path="SpotName" />
+                                <Binding Path="CreateTime" />
+                            </MultiBinding>
+                        </TextBlock.Text>
+                    </TextBlock>
+                    <TextBlock
+                        Grid.Row="1"
+                        FontFamily=" Microsoft YaHei"
+                        FontSize="14"
+                        FontWeight="Bold"
+                        Foreground="#22272B">
+                        <TextBlock.Text>
+                            <MultiBinding StringFormat="{}卷号: {0}    位置: {1}    宽度: {2:N2} mm    深度: {3:N2} mm">
+                                <Binding Path="RollNo" />
+                                <Binding Path="Position" />
+                                <Binding Path="DefectWidth" />
+                                <Binding Path="DefectDepth" />
+                            </MultiBinding>
+                        </TextBlock.Text>
+                    </TextBlock>
+                </Grid>
+                <StackPanel
+                    Grid.Column="2"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal">
+                    <Image
+                        Width="156"
+                        Margin="0,0,20,0"
+                        Source="{x:Static local:AppSettings.Logo}"
+                        Stretch="Uniform" />
+                    <Button
+                        Grid.Column="2"
+                        VerticalAlignment="Center"
+                        Style="{StaticResource CloseButtonStyle}">
+                        <iconPacks:PackIconMaterialDesign VerticalAlignment="Center" Kind="CloseRound" />
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Click">
+                                <i:CallMethodAction MethodName="Close" TargetObject="{Binding RelativeSource={RelativeSource AncestorType=Window}}" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </Button>
+                </StackPanel>
+            </Grid>
+            <Grid Grid.Row="1" Margin="10,8">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="16" />
+                    <ColumnDefinition Width="4*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Border BorderThickness="3" CornerRadius="6">
+                    <Border.BorderBrush>
+                        <SolidColorBrush Color="{Binding BackColor}" />
+                    </Border.BorderBrush>
+                    <Image
+                        Source="{Binding SmallImg}"
+                        Stretch="Uniform"
+                        StretchDirection="Both" />
+                </Border>
+                <Border
+                    Grid.Row="1"
+                    Margin="0,4"
+                    Padding="0,4"
+                    HorizontalAlignment="Stretch"
+                    CornerRadius="6">
+                    <Border.Background>
+                        <SolidColorBrush Color="{Binding BackColor}" />
+                    </Border.Background>
+                    <TextBlock
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        FontSize="14"
+                        FontWeight="Bold"
+                        Text="{Binding DefectTitle}">
+                        <TextBlock.Foreground>
+                            <SolidColorBrush Color="{Binding ForeColor}" />
+                        </TextBlock.Foreground>
+                    </TextBlock>
+                </Border>
+                <Border Grid.Column="2" CornerRadius="6">
+                    <Image
+                        Source="{Binding RawImg}"
+                        Stretch="Uniform"
+                        StretchDirection="Both" />
+                </Border>
+                <TextBlock
+                    Grid.Row="1"
+                    Grid.Column="2"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    FontSize="14"
+                    Foreground="#738496"
+                    Text="完整图像" />
+            </Grid>
+        </Grid>
+    </Border>
+</Window>

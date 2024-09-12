@@ -1,0 +1,384 @@
+﻿<UserControl
+    x:Class="CTClient.HistoryView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controlLib="clr-namespace:CTControlLib;assembly=CTControlLib"
+    xmlns:converters="clr-namespace:CTClient.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+    xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+    xmlns:local="clr-namespace:CTClient"
+    xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="450"
+    d:DesignWidth="1400"
+    DataContext="{Binding RelativeSource={RelativeSource Mode=Self}, Path=.}"
+    mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <converters:PickDateRangeConverter x:Key="PickDateRangeConverter" />
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Border
+        Margin="8,0"
+        Background="White"
+        CornerRadius="10">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid Margin="40,40,40,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <TextBox
+                    Width="200"
+                    Height="40"
+                    Padding="8,8"
+                    VerticalContentAlignment="Center"
+                    mah:ControlsHelper.CornerRadius="8"
+                    mah:TextBoxHelper.ButtonCommand="{Binding FilterQueryCommand, Mode=OneWay}"
+                    mah:TextBoxHelper.ButtonWidth="26"
+                    mah:TextBoxHelper.ButtonsAlignment="Right"
+                    mah:TextBoxHelper.Watermark="卷号"
+                    Background="#F1F2F4"
+                    BorderThickness="0"
+                    FontFamily="Microsoft YaHei"
+                    FontSize="14"
+                    Foreground="#738496"
+                    Style="{StaticResource ButtonTextBox}"
+                    Text="{Binding RollNoFilter.RollNo, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                    <mah:TextBoxHelper.ButtonContent>
+                        <iconPacks:PackIconMaterialDesign
+                            FontWeight="Light"
+                            Foreground="#758195"
+                            Kind="Search" />
+                    </mah:TextBoxHelper.ButtonContent>
+                </TextBox>
+                <StackPanel
+                    Grid.Column="2"
+                    VerticalAlignment="Stretch"
+                    Orientation="Horizontal">
+                    <mah:SplitButton
+                        Width="160"
+                        mah:ControlsHelper.CornerRadius="8"
+                        ArrowBrush="#738496"
+                        ArrowMouseOverBrush="#738496"
+                        ArrowPressedBrush="#738496"
+                        Background="#F1F2F4"
+                        BorderThickness="0"
+                        DisplayMemberPath="Key"
+                        FontFamily="Microsoft YaHei"
+                        FontSize="14"
+                        Foreground="#738496"
+                        ItemsSource="{Binding DefectTypeFilter.Items, Mode=OneTime}"
+                        SelectedValue="{Binding DefectTypeFilter.Selected, Mode=TwoWay}"
+                        SelectedValuePath="Value" />
+                    <mah:SplitButton
+                        Width="160"
+                        Margin="16,0"
+                        mah:ControlsHelper.CornerRadius="8"
+                        ArrowBrush="#738496"
+                        ArrowMouseOverBrush="#738496"
+                        ArrowPressedBrush="#738496"
+                        Background="#F1F2F4"
+                        BorderThickness="0"
+                        FontFamily="Microsoft YaHei"
+                        FontSize="14"
+                        Foreground="#738496"
+                        ItemsSource="{Binding SpotNameFilter.Items, Mode=OneTime}"
+                        SelectedItem="{Binding SpotNameFilter.Selected, Mode=TwoWay}" />
+                    <Grid Width="204">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <Rectangle
+                            Grid.ColumnSpan="3"
+                            Fill="#F1F2F4"
+                            RadiusX="10"
+                            RadiusY="10" />
+                        <RadioButton
+                            VerticalAlignment="Stretch"
+                            Content="当班"
+                            GroupName="PickDateRange"
+                            IsChecked="{Binding PickDateRangeType, Converter={StaticResource PickDateRangeConverter}, ConverterParameter={x:Static local:PickDateRangeType.Shift}, Mode=TwoWay}"
+                            Style="{StaticResource PickDateRadioButton}" />
+                        <RadioButton
+                            Grid.Column="1"
+                            VerticalAlignment="Stretch"
+                            Content="当日"
+                            GroupName="PickDateRange"
+                            IsChecked="{Binding PickDateRangeType, Converter={StaticResource PickDateRangeConverter}, ConverterParameter={x:Static local:PickDateRangeType.Day}, Mode=TwoWay}"
+                            Style="{StaticResource PickDateRadioButton}" />
+                        <RadioButton
+                            Grid.Column="2"
+                            VerticalAlignment="Stretch"
+                            Content="当月"
+                            GroupName="PickDateRange"
+                            IsChecked="{Binding PickDateRangeType, Converter={StaticResource PickDateRangeConverter}, ConverterParameter={x:Static local:PickDateRangeType.Month}, Mode=TwoWay}"
+                            Style="{StaticResource PickDateRadioButton}" />
+                    </Grid>
+                    <controlLib:CTDateTimePicker
+                        Width="200"
+                        Height="40"
+                        Margin="16,0"
+                        VerticalContentAlignment="Center"
+                        mah:ControlsHelper.CornerRadius="8"
+                        Background="#F1F2F4"
+                        BorderThickness="0"
+                        Culture="zh-CN"
+                        Focusable="False"
+                        FontFamily="Microsoft YaHei"
+                        FontSize="14"
+                        Foreground="#738496"
+                        IsTodayHighlighted="False"
+                        PickerVisibility="All"
+                        SelectedDateFormat="Long"
+                        SelectedDateTime="{Binding CreateTimeFilter.MinTime, Mode=TwoWay}"
+                        SelectedTimeFormat="Long"
+                        Style="{StaticResource TimePickerBase}">
+                        <mah:DatePickerHelper.DropDownButtonContent>
+                            <iconPacks:PackIconMaterialDesign
+                                FontWeight="Light"
+                                Foreground="#758195"
+                                Kind="CalendarMonth" />
+                        </mah:DatePickerHelper.DropDownButtonContent>
+                    </controlLib:CTDateTimePicker>
+                    <controlLib:CTDateTimePicker
+                        Width="200"
+                        Height="40"
+                        VerticalContentAlignment="Center"
+                        mah:ControlsHelper.CornerRadius="8"
+                        Background="#F1F2F4"
+                        BorderThickness="0"
+                        Culture="zh-CN"
+                        Focusable="False"
+                        FontFamily="Microsoft YaHei"
+                        FontSize="14"
+                        Foreground="#738496"
+                        IsTodayHighlighted="False"
+                        PickerVisibility="All"
+                        SelectedDateFormat="Long"
+                        SelectedDateTime="{Binding CreateTimeFilter.MaxTime, Mode=TwoWay}"
+                        SelectedTimeFormat="Long"
+                        Style="{StaticResource TimePickerBase}">
+                        <mah:DatePickerHelper.DropDownButtonContent>
+                            <iconPacks:PackIconMaterialDesign
+                                FontWeight="Light"
+                                Foreground="#758195"
+                                Kind="CalendarMonth" />
+                        </mah:DatePickerHelper.DropDownButtonContent>
+                    </controlLib:CTDateTimePicker>
+                    <Button
+                        Width="100"
+                        Margin="16,0,0,0"
+                        mah:ControlsHelper.CornerRadius="10"
+                        Command="{Binding ExportCommand}">
+                        <StackPanel
+                            Margin="18,0"
+                            HorizontalAlignment="Center"
+                            Orientation="Horizontal">
+                            <iconPacks:PackIconMaterialDesign VerticalAlignment="Center" Kind="DriveFolderUploadOutline" />
+                            <TextBlock Margin="6,0,0,0" Text="导出" />
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+            </Grid>
+            <DataGrid
+                x:Name="dg"
+                Grid.Row="1"
+                Margin="40,40,40,0"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch"
+                AlternatingRowBackground="#F1F2F4"
+                AutoGenerateColumns="False"
+                Background="White"
+                BorderThickness="0"
+                CanUserSortColumns="False"
+                CellStyle="{StaticResource DefaultDataGridCell}"
+                ColumnHeaderStyle="{StaticResource DefaultColumnHeader}"
+                EnableColumnVirtualization="true"
+                EnableRowVirtualization="true"
+                Focusable="False"
+                FontFamily="Microsoft YaHei"
+                FontSize="16"
+                FontWeight="Bold"
+                Foreground="#172B4D"
+                HorizontalScrollBarVisibility="Disabled"
+                IsReadOnly="True"
+                ItemsSource="{Binding Items}"
+                RowStyle="{StaticResource DefaultDataGridRow}"
+                SelectedValuePath="DetailId"
+                SelectionMode="Single"
+                VerticalScrollBarVisibility="Hidden">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="SelectionChanged">
+                        <i:InvokeCommandAction Command="{x:Static local:ApplicationCommands.DisplayDefectDetailCommand}" CommandParameter="{Binding ElementName=dg, Path=SelectedValue}" />
+                        <i:CallMethodAction MethodName="InitDataGrid" TargetObject="{Binding}" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+                <mah:DataGridHelper.AutoGeneratedTextColumnStyle>
+                    <Style TargetType="TextBlock">
+                        <Setter Property="HorizontalAlignment" Value="Center" />
+                        <Setter Property="VerticalAlignment" Value="Center" />
+                    </Style>
+                </mah:DataGridHelper.AutoGeneratedTextColumnStyle>
+                <DataGrid.Columns>
+                    <DataGridTextColumn
+                        Width="Auto"
+                        MinWidth="180"
+                        Binding="{Binding CreateTime, StringFormat='yyyy-MM-dd HH:mm:ss'}"
+                        Header="时间" />
+                    <DataGridTextColumn
+                        Width="Auto"
+                        MinWidth="120"
+                        Binding="{Binding RollNo}"
+                        Header="卷号" />
+                    <DataGridTextColumn
+                        Width="Auto"
+                        MinWidth="100"
+                        Binding="{Binding RollWidth}"
+                        Header="卷宽(mm)" />
+                    <DataGridTextColumn
+                        Width="Auto"
+                        MinWidth="80"
+                        Binding="{Binding RollThickness, StringFormat='{}{0:N2}'}"
+                        Header="卷厚(mm)" />
+                    <DataGridTextColumn
+                        Width="Auto"
+                        MinWidth="100"
+                        Binding="{Binding RollSpeed, StringFormat='{}{0:N2}'}"
+                        Header="速度(m/min)" />
+                    <DataGridTextColumn
+                        Width="*"
+                        Binding="{Binding SpotName}"
+                        Header="点位" />
+                    <DataGridTextColumn
+                        Width="*"
+                        Binding="{Binding Position}"
+                        Header="位置" />
+                    <DataGridTextColumn
+                        Width="Auto"
+                        MinWidth="100"
+                        Binding="{Binding RemainLength}"
+                        Header="剩余长度(m)" />
+                    <DataGridTemplateColumn
+                        Width="Auto"
+                        MinWidth="136"
+                        Header="缺陷类型">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate DataType="local:DefectDetailVM">
+                                <Label
+                                    Margin="4,0"
+                                    Padding="0,4"
+                                    HorizontalAlignment="Stretch"
+                                    VerticalAlignment="Center"
+                                    HorizontalContentAlignment="Center"
+                                    mah:ControlsHelper.CornerRadius="8"
+                                    Content="{Binding DefectTitle}">
+                                    <Label.Background>
+                                        <SolidColorBrush Color="{Binding BackColor}" />
+                                    </Label.Background>
+                                    <Label.Foreground>
+                                        <SolidColorBrush Color="{Binding ForeColor}" />
+                                    </Label.Foreground>
+                                </Label>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTextColumn
+                        Width="*"
+                        Binding="{Binding DefectWidth, StringFormat='{}{0:N2}'}"
+                        Header="缺陷宽(mm)" />
+                    <DataGridTextColumn
+                        Width="*"
+                        Binding="{Binding DefectDepth, StringFormat='{}{0:N2}'}"
+                        Header="缺陷深(mm)" />
+                    <DataGridTextColumn
+                        Width="*"
+                        Binding="{Binding DefectArea, StringFormat='{}{0:N2}'}"
+                        Header="缺陷面积(mm²)" />
+                </DataGrid.Columns>
+            </DataGrid>
+            <Grid
+                Grid.Row="2"
+                Margin="0,40"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Bottom">
+                <StackPanel Orientation="Horizontal">
+                    <Button
+                        Width="60"
+                        Command="{Binding PagingVM.FirstCommand}"
+                        Style="{StaticResource PagingButtonStyle}">
+                        首页
+                    </Button>
+                    <Button
+                        Width="80"
+                        Margin="10,0"
+                        Command="{Binding PagingVM.PreviousCommand}"
+                        Style="{StaticResource PagingButtonStyle}">
+                        上一页
+                    </Button>
+                    <Button
+                        Width="80"
+                        Command="{Binding PagingVM.NextCommand}"
+                        Style="{StaticResource PagingButtonStyle}">
+                        下一页
+                    </Button>
+                    <Button
+                        Width="80"
+                        Margin="10,0"
+                        Command="{Binding PagingVM.LastCommand}"
+                        Style="{StaticResource PagingButtonStyle}">
+                        尾页
+                    </Button>
+                    <mah:NumericUpDown
+                        Width="60"
+                        Height="40"
+                        Padding="8,8"
+                        VerticalContentAlignment="Center"
+                        mah:ControlsHelper.CornerRadius="8"
+                        Background="#F1F2F4"
+                        BorderThickness="0"
+                        FontFamily="Microsoft YaHei"
+                        FontSize="14"
+                        Foreground="#738496"
+                        HideUpDownButtons="True"
+                        Interval="1"
+                        Maximum="{Binding PagingVM.MaxPageIndex}"
+                        Minimum="1"
+                        NumericInputMode="Numbers"
+                        Value="{Binding PagingVM.PageIndex, Mode=Twoway, UpdateSourceTrigger=PropertyChanged, StringFormat='{}第{0}页', NotifyOnSourceUpdated=True}" />
+                    <Button
+                        Width="80"
+                        Margin="10,0"
+                        Command="{Binding PagingVM.JumpCommand}"
+                        Style="{StaticResource PagingButtonStyle}">
+                        跳转
+                    </Button>
+                    <mah:SplitButton
+                        Width="80"
+                        mah:ControlsHelper.CornerRadius="8"
+                        ArrowBrush="#738496"
+                        ArrowMouseOverBrush="#738496"
+                        ArrowPressedBrush="#738496"
+                        Background="#F1F2F4"
+                        BorderThickness="0"
+                        FontFamily="Microsoft YaHei"
+                        FontSize="14"
+                        Foreground="#738496"
+                        ItemsSource="{x:Static local:PagingVM.PageSizeItems}"
+                        SelectedValue="{Binding PagingVM.PageSize}" />
+                </StackPanel>
+            </Grid>
+        </Grid>
+    </Border>
+</UserControl>

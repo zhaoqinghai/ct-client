@@ -1,0 +1,129 @@
+﻿<UserControl
+    x:Class="CTClient.SpotDefectView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:converter="clr-namespace:CTClient.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+    xmlns:local="clr-namespace:CTClient"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    x:Name="_this"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    DataContext="{Binding RelativeSource={RelativeSource Mode=Self}, Path=.}"
+    mc:Ignorable="d">
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded" SourceObject="{Binding ElementName=_this}">
+            <i:InvokeCommandAction Command="{Binding InitCommand}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <converter:BoolDefectGalleryDisplayModeConverter x:Key="BoolDefectGalleryDisplayModeConverter" />
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <StackPanel
+                Height="40"
+                Margin="32,0"
+                VerticalAlignment="Center"
+                Orientation="Horizontal">
+                <TextBlock
+                    VerticalAlignment="Center"
+                    FontFamily=" Microsoft YaHei"
+                    FontSize="14"
+                    FontWeight="Bold"
+                    Foreground="#22272B">
+                    <TextBlock.Text>
+                        <MultiBinding StringFormat="{}{0}    当前卷号: {1}    剩余长度: {2} M    当前速度:{3} M/Min">
+                            <Binding Mode="OneTime" Path="SpotTitle" />
+                            <Binding Path="CurrentRollNo" TargetNullValue="--" />
+                            <Binding Path="RemainLength" TargetNullValue="--" />
+                            <Binding Path="CurrentSpeed" TargetNullValue="--" />
+                        </MultiBinding>
+                    </TextBlock.Text>
+                </TextBlock>
+            </StackPanel>
+            <Border
+                Grid.Column="2"
+                Height="40"
+                Margin="12,0"
+                VerticalAlignment="Center"
+                Background="#F1F2F4"
+                CornerRadius="10">
+                <StackPanel Orientation="Horizontal">
+                    <RadioButton
+                        Width="100"
+                        VerticalAlignment="Stretch"
+                        Content="最近缺陷"
+                        IsChecked="{Binding DefectView.GalleryDisplayMode, Converter={StaticResource BoolDefectGalleryDisplayModeConverter}, ConverterParameter={x:Static local:DefectGalleryDisplayMode.Newest}, Mode=TwoWay}"
+                        Style="{StaticResource PickDateRadioButton}" />
+                    <RadioButton
+                        Width="120"
+                        VerticalAlignment="Stretch"
+                        Content="{Binding CurrentRollCount, Mode=OneTime}"
+                        IsChecked="{Binding DefectView.GalleryDisplayMode, Converter={StaticResource BoolDefectGalleryDisplayModeConverter}, ConverterParameter={x:Static local:DefectGalleryDisplayMode.CurrentRoll}, Mode=TwoWay}"
+                        Style="{StaticResource PickDateRadioButton}" />
+                    <RadioButton
+                        Width="120"
+                        VerticalAlignment="Stretch"
+                        Content="{Binding CurrentDayCount, Mode=OneTime}"
+                        IsChecked="{Binding DefectView.GalleryDisplayMode, Converter={StaticResource BoolDefectGalleryDisplayModeConverter}, ConverterParameter={x:Static local:DefectGalleryDisplayMode.CurrentDay}, Mode=TwoWay}"
+                        Style="{StaticResource PickDateRadioButton}" />
+                </StackPanel>
+            </Border>
+        </Grid>
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="300" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid Margin="20,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <TextBlock
+                    Margin="0,0,0,6"
+                    HorizontalAlignment="Left"
+                    FontSize="14"
+                    Foreground="#8590A2"
+                    Text="{Binding LeftPositionTitle}" />
+                <TextBlock
+                    Margin="0,0,0,6"
+                    HorizontalAlignment="Right"
+                    FontSize="14"
+                    Foreground="#8590A2"
+                    Text="{Binding RightPositionTitle}" />
+                <Image
+                    Grid.Row="1"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"
+                    Source="{Binding DefectMap}"
+                    Stretch="Fill" />
+                <Image
+                    Grid.Row="1"
+                    Height="88"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Top"
+                    Source="/Assets/检测模组.png"
+                    Stretch="Fill" />
+            </Grid>
+            <ContentControl
+                Grid.Column="1"
+                VerticalAlignment="Stretch"
+                Content="{Binding DefectView, Mode=OneTime}" />
+        </Grid>
+    </Grid>
+</UserControl>
