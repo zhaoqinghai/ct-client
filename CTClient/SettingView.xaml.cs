@@ -61,41 +61,45 @@ namespace CTClient
                         if (thresholdSettings.TryGetValue(kvp.Name, out var value) && float.TryParse(kvp.MaxValue, out var maxValue))
                         {
                             value.ThresholdMaxValue = maxValue;
+                            if (kvp.Name == "轻微边裂")
+                            {
+                                LowCrack = Transfer(value);
+                                LowCrack.IsActivate = kvp.IsActivate;
+                            }
+                            else if (kvp.Name == "中等边裂")
+                            {
+                                MediumCrack = Transfer(value);
+                                MediumCrack.IsActivate = kvp.IsActivate;
+                            }
+                            else if (kvp.Name == "严重边裂")
+                            {
+                                HighCrack = Transfer(value);
+                                HighCrack.IsActivate = kvp.IsActivate;
+                            }
+                            else if (kvp.Name == "折印")
+                            {
+                                Crease = Transfer(value);
+                                Crease.IsActivate = kvp.IsActivate;
+                            }
+                            else if (kvp.Name == "跑偏")
+                            {
+                                OffTrack = Transfer(value);
+                                OffTrack.IsActivate = kvp.IsActivate;
+                            }
+                        }
+                        if (kvp.Name == "连锁停机" && float.TryParse(kvp.MinValue, out var minValue))
+                        {
+                            LinkLock = new DefectDefineVM()
+                            {
+                                DefectTypeName = kvp.Name,
+                                MinValue = minValue,
+                                IsActivate = kvp.IsActivate,
+                            };
                         }
                     }
                 }
                 App.Current.Dispatcher.Invoke(() =>
                 {
-                    {
-                        if (thresholdSettings.TryGetValue("轻微边裂", out var dd))
-                        {
-                            LowCrack = Transfer(dd);
-                        }
-                    }
-                    {
-                        if (thresholdSettings.TryGetValue("中等边裂", out var dd))
-                        {
-                            MediumCrack = Transfer(dd);
-                        }
-                    }
-                    {
-                        if (thresholdSettings.TryGetValue("严重边裂", out var dd))
-                        {
-                            HighCrack = Transfer(dd);
-                        }
-                    }
-                    {
-                        if (thresholdSettings.TryGetValue("折印", out var dd))
-                        {
-                            Crease = Transfer(dd);
-                        }
-                    }
-                    {
-                        if (thresholdSettings.TryGetValue("跑偏", out var dd))
-                        {
-                            OffTrack = Transfer(dd);
-                        }
-                    }
                 });
             });
             InitializeComponent();
@@ -115,6 +119,9 @@ namespace CTClient
 
         [ObservableProperty]
         private DefectDefineVM? _offTrack;
+
+        [ObservableProperty]
+        private DefectDefineVM? _linkLock;
 
         private DefectDefineVM Transfer(DefectDefineV defectDefineV)
         {
@@ -147,7 +154,8 @@ namespace CTClient
                     MediumCrack,
                     HighCrack,
                     Crease,
-                    OffTrack
+                    OffTrack,
+                    LinkLock
                 };
                 var details = JsonSerializer.Serialize(items, new JsonSerializerOptions
                 {
@@ -156,7 +164,9 @@ namespace CTClient
                 var configs = items.Where(x => x != null).Select(x => new CTModel.DefectDefineConfig
                 {
                     Name = x!.DefectTypeName,
-                    MaxValue = x.MaxValue.ToString()
+                    MaxValue = x.MaxValue.ToString(),
+                    MinValue = x.MinValue.ToString(),
+                    IsActivate = x.IsActivate,
                 }).ToList();
                 await Task.Factory.StartNew(async () =>
                 {
@@ -212,9 +222,17 @@ namespace CTClient
         [property: JsonIgnore]
         private float _maxValue;
 
+        [ObservableProperty]
+        [property: JsonIgnore]
+        private float _minValue;
+
+        [ObservableProperty]
+        private int _isActivate;
+
         public string ConfigurationName => DefectTypeName;
 
         public string ConfigurationMax => MaxValue.ToString();
+        public string ConfigurationMin => MinValue.ToString();
     }
 
     public class ShowMsgInfo

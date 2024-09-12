@@ -307,28 +307,59 @@ namespace CTClient
 
                 var plot = new Plot();
                 List<PieSlice> slices = new();
+                List<(string, ScottPlot.Color)> LegendItems = new();
+                var totalCount = 0d;
+
                 foreach (var defectName in AppSettings.DefectDefineDict)
                 {
                     if (!AppSettings.DrawDefectTypeSet.Contains(defectName.Key))
                     {
                         continue;
                     }
-                    var color = ScottPlot.Color.FromARGB(defectName.Value.ReportColor.A << 24 | defectName.Value.ReportColor.R << 16 | defectName.Value.ReportColor.G << 8 | defectName.Value.ReportColor.B);
 
-                    slices.Add(new PieSlice() { Value = Math.Max(.0000001, GetDefectMap(vm.CurrentDay, defectName.Key)?.Count ?? .0000001), FillColor = color, Label = defectName.Key });
+                    var color = ScottPlot.Color.FromARGB(defectName.Value.ReportColor.A << 24 | defectName.Value.ReportColor.R << 16 | defectName.Value.ReportColor.G << 8 | defectName.Value.ReportColor.B);
+                    LegendItems.Add((defectName.Key, color));
+                    var count = GetDefectMap(vm.CurrentDay, defectName.Key)?.Count ?? 0;
+                    totalCount += count;
+                    var value = Math.Max(.0000001, count);
+                    slices.Add(new PieSlice() { Value = value, FillColor = color, LabelFontColor = color });
                 }
-                var pannel = plot.ShowLegend(Edge.Right);
-                pannel.Alignment = Alignment.MiddleCenter;
-                pannel.Legend.ShadowColor = ScottPlot.Colors.Transparent;
+
+                for (var i = 0; i < slices.Count; i++)
+                {
+                    if (slices[i].Value >= 1 && totalCount > 0)
+                    {
+                        slices[i].Label = $"{slices[i].Value / totalCount:P1}";
+                    }
+                    else
+                    {
+                        slices[i].Label = string.Empty;
+                    }
+                }
+
                 plot.Layout.Fixed(new PixelPadding(0, 150, 0, 0));
                 plot.HideGrid();
                 plot.Axes.Frameless();
                 var pie = plot.Add.Pie(slices);
+                pie.ShowSliceLabels = true;
                 pie.DonutFraction = .4;
                 pie.LineWidth = 0;
                 pie.LineColor = ScottPlot.Colors.Transparent;
+                var pannel = plot.ShowLegend(Edge.Right);
+                pannel.Alignment = Alignment.MiddleCenter;
+                pannel.Legend.ShadowColor = ScottPlot.Colors.Transparent;
+                pannel.Legend.DisplayPlottableLegendItems = false;
+                pannel.Legend.ManualItems.AddRange(LegendItems.Select(x =>
+                new LegendItem()
+                {
+                    LabelText = x.Item1,
+                    LabelFontSize = 14,
+                    LineWidth = 8,
+                    LineColor = x.Item2,
+                }));
                 plot.Axes.Margins(0.01, 0.01);
                 plot.Font.Set(SKFontManager.Default.MatchCharacter('汉').FamilyName);
+
                 var imgBytes = plot.GetImageBytes(430, 300);
                 return (430, 300, imgBytes);
             }).ContinueWith(t =>

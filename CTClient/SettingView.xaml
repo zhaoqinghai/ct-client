@@ -47,65 +47,111 @@
                         HorizontalAlignment="Left"
                         Orientation="Horizontal">
                         <lib:UserStateButton
-                            x:Name="usb"
                             Width="128"
-                            IsChecked="True">
-                            <lib:UserStateButton.OffContent>
-                                <UserControl>
-                                    <Border
-                                        Height="40"
-                                        Background="#AE2E24"
-                                        CornerRadius="20">
-                                        <StackPanel
-                                            Margin="10,0"
-                                            HorizontalAlignment="Center"
-                                            Orientation="Horizontal">
-                                            <iconPacks:PackIconMaterialDesign
-                                                Width="20"
-                                                Height="20"
-                                                VerticalAlignment="Center"
-                                                Foreground="White"
-                                                Kind="LinkOff" />
-                                            <TextBlock
-                                                Margin="12,0,4,0"
-                                                VerticalAlignment="Center"
-                                                FontFamily=" Microsoft YaHei UI"
-                                                FontSize="16"
-                                                FontWeight="Bold"
-                                                Foreground="White"
-                                                Text="未连锁" />
-                                        </StackPanel>
-                                    </Border>
-                                </UserControl>
-                            </lib:UserStateButton.OffContent>
-                            <lib:UserStateButton.OnContent>
-                                <UserControl>
-                                    <Border
-                                        Height="40"
-                                        Background="Green"
-                                        CornerRadius="20">
-                                        <StackPanel
-                                            Margin="10,0"
-                                            HorizontalAlignment="Center"
-                                            Orientation="Horizontal">
-                                            <iconPacks:PackIconMaterialDesign
-                                                Width="20"
-                                                Height="20"
-                                                VerticalAlignment="Center"
-                                                Foreground="White"
-                                                Kind="Link" />
-                                            <TextBlock
-                                                Margin="10,0,4,0"
-                                                VerticalAlignment="Center"
-                                                FontFamily=" Microsoft YaHei UI"
-                                                FontSize="16"
-                                                FontWeight="Bold"
-                                                Foreground="White"
-                                                Text="连锁停机" />
-                                        </StackPanel>
-                                    </Border>
-                                </UserControl>
-                            </lib:UserStateButton.OnContent>
+                            State="{Binding LinkLock.IsActivate, Mode=TwoWay}"
+                            StateMax="2">
+                            <lib:UserStateButton.Style>
+                                <Style TargetType="lib:UserStateButton">
+                                    <Style.Triggers>
+                                        <Trigger Property="State" Value="0">
+                                            <Setter Property="Content">
+                                                <Setter.Value>
+                                                    <UserControl>
+                                                        <Border
+                                                            Height="40"
+                                                            Background="#AE2E24"
+                                                            CornerRadius="20">
+                                                            <StackPanel
+                                                                Margin="10,0"
+                                                                HorizontalAlignment="Center"
+                                                                Orientation="Horizontal">
+                                                                <iconPacks:PackIconMaterialDesign
+                                                                    Width="20"
+                                                                    Height="20"
+                                                                    VerticalAlignment="Center"
+                                                                    Foreground="White"
+                                                                    Kind="LinkOff" />
+                                                                <TextBlock
+                                                                    Margin="12,0,4,0"
+                                                                    VerticalAlignment="Center"
+                                                                    FontFamily=" Microsoft YaHei UI"
+                                                                    FontSize="16"
+                                                                    FontWeight="Bold"
+                                                                    Foreground="White"
+                                                                    Text="未连锁" />
+                                                            </StackPanel>
+                                                        </Border>
+                                                    </UserControl>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Trigger>
+                                        <Trigger Property="State" Value="1">
+                                            <Setter Property="Content">
+                                                <Setter.Value>
+                                                    <UserControl>
+                                                        <Border
+                                                            Height="40"
+                                                            Background="Green"
+                                                            CornerRadius="20">
+                                                            <StackPanel
+                                                                Margin="10,0"
+                                                                HorizontalAlignment="Center"
+                                                                Orientation="Horizontal">
+                                                                <iconPacks:PackIconMaterialDesign
+                                                                    Width="20"
+                                                                    Height="20"
+                                                                    VerticalAlignment="Center"
+                                                                    Foreground="White"
+                                                                    Kind="Link" />
+                                                                <TextBlock
+                                                                    Margin="10,0,4,0"
+                                                                    VerticalAlignment="Center"
+                                                                    FontFamily=" Microsoft YaHei UI"
+                                                                    FontSize="16"
+                                                                    FontWeight="Bold"
+                                                                    Foreground="White"
+                                                                    Text="连锁减速" />
+                                                            </StackPanel>
+                                                        </Border>
+                                                    </UserControl>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Trigger>
+                                        <Trigger Property="State" Value="2">
+                                            <Setter Property="Content">
+                                                <Setter.Value>
+                                                    <UserControl>
+                                                        <Border
+                                                            Height="40"
+                                                            Background="Green"
+                                                            CornerRadius="20">
+                                                            <StackPanel
+                                                                Margin="10,0"
+                                                                HorizontalAlignment="Center"
+                                                                Orientation="Horizontal">
+                                                                <iconPacks:PackIconMaterialDesign
+                                                                    Width="20"
+                                                                    Height="20"
+                                                                    VerticalAlignment="Center"
+                                                                    Foreground="White"
+                                                                    Kind="Link" />
+                                                                <TextBlock
+                                                                    Margin="10,0,4,0"
+                                                                    VerticalAlignment="Center"
+                                                                    FontFamily=" Microsoft YaHei UI"
+                                                                    FontSize="16"
+                                                                    FontWeight="Bold"
+                                                                    Foreground="White"
+                                                                    Text="连锁停机" />
+                                                            </StackPanel>
+                                                        </Border>
+                                                    </UserControl>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </lib:UserStateButton.Style>
                         </lib:UserStateButton>
                         <iconPacks:PackIconMaterialDesign
                             Width="22"
@@ -116,9 +162,8 @@
                             Kind="KeyboardArrowRightSharp" />
                         <mah:NumericUpDown
                             ForceCursor="False"
-                            IsEnabled="{Binding ElementName=usb, Path=IsChecked}"
                             Style="{StaticResource SettingValueBox}"
-                            Value="30" />
+                            Value="{Binding LinkLock.MinValue, Mode=TwoWay}" />
                     </StackPanel>
                     <Rectangle
                         Height="1"

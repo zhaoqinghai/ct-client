@@ -21,9 +21,8 @@ namespace CTService
     public class ThresholdService : IThresholdService
     {
         private readonly string _connection;
-        private readonly string _globalSql;
 
-        public ThresholdService(IOptions<LocalSettings> settings) => (_connection, _globalSql) = (settings.Value.ConnectionStrings.DefectDb, string.IsNullOrEmpty(settings.Value.DefectSettings.GlobalDefectIgnoreSql) ? string.Empty : settings.Value.DefectSettings.GlobalDefectIgnoreSql);
+        public ThresholdService(IOptions<LocalSettings> settings) => (_connection) = (settings.Value.ConnectionStrings.DefectDb);
 
         public IList<DefectDefineConfig> GetDefectDefineConfigs()
         {
@@ -34,7 +33,9 @@ namespace CTService
             return connection.Query<DefectDefineConfig>(@"
                 SELECT
                     ConfigurationName AS `Name`,
-                    ConfigurationMax AS `MaxValue`
+                    ConfigurationMax AS `MaxValue`,
+                    ConfigurationMin AS `MinValue`,
+                    IsActivate AS `IsActivate`
                 FROM
                     configurationtable").ToList();
         }
@@ -46,7 +47,9 @@ namespace CTService
             connection.Open();
             connection.Execute(string.Join("", configs.Select(x => $@"
                 UPDATE configurationtable
-                SET ConfigurationMax = {x.MaxValue}
+                SET ConfigurationMax = {x.MaxValue},
+                ConfigurationMin = {x.MinValue},
+                IsActivate = {x.IsActivate}
                 WHERE
                     ConfigurationName = '{x.Name}';")));
         }

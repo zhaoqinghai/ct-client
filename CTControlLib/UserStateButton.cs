@@ -16,29 +16,42 @@ using System.Windows.Shapes;
 
 namespace CTControlLib
 {
-    public class UserStateButton : ToggleButton
+    public class UserStateButton : Button
     {
         static UserStateButton()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(UserStateButton), new FrameworkPropertyMetadata(typeof(UserStateButton)));
         }
 
-        public object OnContent
+        protected override void OnClick()
         {
-            get { return (object)GetValue(OnContentProperty); }
-            set { SetValue(OnContentProperty, value); }
+            if (State >= StateMax)
+            {
+                State = 0;
+            }
+            else
+            {
+                State += 1;
+            }
+            base.OnClick();
         }
 
-        public static readonly DependencyProperty OnContentProperty =
-            DependencyProperty.Register("OnContent", typeof(object), typeof(UserStateButton));
-
-        public object OffContent
+        public int State
         {
-            get { return (object)GetValue(OffContentProperty); }
-            set { SetValue(OffContentProperty, value); }
+            get { return (int)GetValue(StateProperty); }
+            set { SetValue(StateProperty, value); }
         }
 
-        public static readonly DependencyProperty OffContentProperty =
-            DependencyProperty.Register("OffContent", typeof(object), typeof(UserStateButton));
+        public static readonly DependencyProperty StateProperty =
+            DependencyProperty.Register("State", typeof(int), typeof(UserStateButton), new PropertyMetadata(0));
+
+        public int StateMax
+        {
+            get { return (int)GetValue(StateMaxProperty); }
+            set { SetValue(StateMaxProperty, value); }
+        }
+
+        public static readonly DependencyProperty StateMaxProperty =
+            DependencyProperty.Register("StateMax", typeof(int), typeof(UserStateButton), new PropertyMetadata(0));
     }
 }

@@ -57,6 +57,10 @@ namespace CTModel
     [Table("configurationtable")]
     public class DefectDefineConfig
     {
+        public required string MinValue { get; set; }
+
+        public int IsActivate { get; set; }
+
         public required string MaxValue { get; set; }
 
         public required string Name { get; set; }

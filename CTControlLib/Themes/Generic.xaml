@@ -997,15 +997,10 @@
                         CornerRadius="{TemplateBinding mah:ControlsHelper.CornerRadius}">
                         <Grid>
                             <ContentPresenter
-                                x:Name="onContent"
                                 HorizontalAlignment="Stretch"
                                 VerticalAlignment="Stretch"
-                                Content="{TemplateBinding OnContent}" />
-                            <ContentPresenter
-                                x:Name="offContent"
-                                HorizontalAlignment="Stretch"
-                                VerticalAlignment="Stretch"
-                                Content="{TemplateBinding OffContent}" />
+                                Content="{TemplateBinding Content}" />
+
                             <Rectangle
                                 x:Name="adornerLayer"
                                 HorizontalAlignment="Stretch"
@@ -1018,14 +1013,6 @@
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
                             <Setter TargetName="adornerLayer" Property="Fill" Value="#22FFFFFF" />
-                        </Trigger>
-                        <Trigger Property="IsChecked" Value="true">
-                            <Setter TargetName="onContent" Property="Visibility" Value="Visible" />
-                            <Setter TargetName="offContent" Property="Visibility" Value="Collapsed" />
-                        </Trigger>
-                        <Trigger Property="IsChecked" Value="false">
-                            <Setter TargetName="offContent" Property="Visibility" Value="Visible" />
-                            <Setter TargetName="onContent" Property="Visibility" Value="Collapsed" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
