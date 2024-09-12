@@ -39,7 +39,8 @@
                             x:Name="defectLbl"
                             Margin="2,2"
                             Background="Transparent"
-                            BorderThickness="1">
+                            BorderThickness="1"
+                            Cursor="Hand">
                             <Label.BorderBrush>
                                 <SolidColorBrush Color="{Binding BackColor}" />
                             </Label.BorderBrush>
@@ -163,7 +164,8 @@
                             Height="380"
                             Margin="2,2"
                             Background="Transparent"
-                            BorderThickness="1">
+                            BorderThickness="1"
+                            Cursor="Hand">
                             <Label.BorderBrush>
                                 <SolidColorBrush Color="{Binding BackColor}" />
                             </Label.BorderBrush>
