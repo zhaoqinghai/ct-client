@@ -23,8 +23,8 @@ namespace CTClient
                                .Build();
 
             ITrigger trigger = TriggerBuilder.Create()
-                              .WithIdentity("tname1", "FreshReportGroup")
-                              .WithCronSchedule("0 0 0,8,20 * * ?")
+                              .WithIdentity("FreshReportGroupTrigger", "FreshReportGroup")
+                              .WithCronSchedule("30 0 0,8,20 * * ?")
                               .Build();
             await scheduler.Start();
             await scheduler.ScheduleJob(job, trigger);

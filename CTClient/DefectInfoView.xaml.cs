@@ -291,7 +291,7 @@ namespace CTClient
             if (_queue.Count > _maxSize - items.Length)
             {
                 var oldItems = new List<T>();
-                for (; _queue.Count > _maxSize - items.Length;)
+                for (; _queue.Count > _maxSize - items.Length && _queue.Count > 0;)
                 {
                     oldItems.Add(_queue.Dequeue());
                 }

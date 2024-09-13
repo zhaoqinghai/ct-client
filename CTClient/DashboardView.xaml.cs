@@ -139,6 +139,7 @@ namespace CTClient
 
         private void RedrawReportTable()
         {
+            _logger.LogInformation("begin redraw report table");
             DrawMonthLineChart();
             Task.Factory.StartNew(() =>
             {

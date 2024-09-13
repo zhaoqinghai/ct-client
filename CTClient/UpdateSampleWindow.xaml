@@ -3,6 +3,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:controlLib="clr-namespace:CTControlLib;assembly=CTControlLib"
+    xmlns:converter="clr-namespace:CTClient.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
@@ -162,7 +163,11 @@
                     FontSize="14"
                     Foreground="#738496"
                     HideUpDownButtons="True"
-                    Value="{Binding DefectWidth, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                    Value="{Binding DefectWidth, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                    <i:Interaction.Behaviors>
+                        <converter:NumericUpDownBehavior />
+                    </i:Interaction.Behaviors>
+                </mah:NumericUpDown>
                 <mah:NumericUpDown
                     Grid.Row="1"
                     Grid.Column="3"
@@ -178,7 +183,11 @@
                     FontSize="14"
                     Foreground="#738496"
                     HideUpDownButtons="True"
-                    Value="{Binding DefectDepth, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                    Value="{Binding DefectDepth, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                    <i:Interaction.Behaviors>
+                        <converter:NumericUpDownBehavior />
+                    </i:Interaction.Behaviors>
+                </mah:NumericUpDown>
                 <controlLib:CTDateTimePicker
                     Grid.Row="1"
                     Grid.Column="4"
