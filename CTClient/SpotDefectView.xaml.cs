@@ -25,6 +25,7 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Effects;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
@@ -127,7 +128,7 @@ namespace CTClient
                 foreach (var item in _defectMapItems)
                 {
                     minHeight = Math.Min(item.Height - 5, minHeight);
-                    maxHeight = Math.Max(item.Height + 7, maxHeight);
+                    maxHeight = Math.Max(item.Height + 9, maxHeight);
                     item.Height += 2;
                 }
 
@@ -140,32 +141,12 @@ namespace CTClient
                     }
                     break;
                 }
-
                 using (var bitmap = new SKBitmap(width, height))
                 using (var canvas = new SKCanvas(bitmap))
                 using (var surface = SKSurface.Create(new SKImageInfo(width, height)))
                 {
-                    canvas.Clear(SKColor.Parse("#E7E9EC"));
-
                     using (var paint = new SKPaint())
                     {
-                        paint.Color = SKColor.Parse("#B3B9C4");
-                        paint.StrokeWidth = 1;
-                        paint.IsAntialias = true;
-
-                        var intervals = new float[] { 10, 5 };
-                        paint.PathEffect = SKPathEffect.CreateDash(intervals, 0);
-                        // 绘制垂直线
-                        for (int x = 10; x < width; x += 60)
-                        {
-                            canvas.DrawLine(x, 0, x, height, paint);
-                        }
-                        // 绘制水平线
-                        for (int y = 90; y < height; y += 50)
-                        {
-                            canvas.DrawLine(0, y, width, y, paint);
-                        }
-
                         var items = _defectMapItems.ToList();
                         foreach (var item in items)
                         {
@@ -175,7 +156,7 @@ namespace CTClient
                                 {
                                     circlePaint.Color = item.FillColor;
                                     circlePaint.IsAntialias = true;
-                                    canvas.DrawCircle(item.Alignment == HorizontalAlignment.Left ? 10 : width - 10, item.Height + 90, 5, circlePaint);
+                                    canvas.DrawCircle(item.Alignment == HorizontalAlignment.Left ? 52 : width - 52, item.Height + 90, 5, circlePaint);
                                 }
                             }
                             else if (item.Shape == Shape.Rectangle)
@@ -184,7 +165,7 @@ namespace CTClient
                                 {
                                     rectPaint.Color = item.FillColor;
                                     rectPaint.IsAntialias = true;
-                                    canvas.DrawRoundRect(item.Alignment == HorizontalAlignment.Left ? 10 : width - 10 - 100, item.Height + 90, 100, 6, 3, 3, rectPaint);
+                                    canvas.DrawRoundRect(item.Alignment == HorizontalAlignment.Left ? 52 : width - 52 - 100, item.Height + 90, 100, 6, 3, 3, rectPaint);
                                 }
                             }
                         }

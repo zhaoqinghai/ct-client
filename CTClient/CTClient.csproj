@@ -26,6 +26,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Assets\379b0cd5b3b180d4092f3c556a0191d.png" />
+    <None Remove="Assets\8816bb82e54cb89550e863e69aae886.png" />
     <None Remove="Assets\Logo.png" />
     <None Remove="Assets\检测模组.png" />
     <None Remove="pub_assests\Logo.ico" />
@@ -33,6 +35,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Assets\379b0cd5b3b180d4092f3c556a0191d.png" />
+    <Resource Include="Assets\8816bb82e54cb89550e863e69aae886.png" />
     <Resource Include="Assets\检测模组.png" />
     <Content Include="Logo.ico" />
     <Content Include="pub_assests\Logo.ico" />

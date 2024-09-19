@@ -110,14 +110,20 @@
                     Grid.Row="1"
                     HorizontalAlignment="Stretch"
                     VerticalAlignment="Stretch"
+                    Source="{x:Static local:AppSettings.CTBk}"
+                    Stretch="Fill" />
+                <Image
+                    Grid.Row="1"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"
                     Source="{Binding DefectMap}"
                     Stretch="Fill" />
                 <Image
                     Grid.Row="1"
-                    Height="88"
+                    Height="136"
                     HorizontalAlignment="Stretch"
                     VerticalAlignment="Top"
-                    Source="/Assets/检测模组.png"
+                    Source="/Assets/8816bb82e54cb89550e863e69aae886.png"
                     Stretch="Fill" />
             </Grid>
             <ContentControl

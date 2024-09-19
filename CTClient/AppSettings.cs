@@ -36,6 +36,19 @@ namespace CTClient
             }
             return _logo;
         }
+
+        private static BitmapImage? _ctBk;
+        public static BitmapImage CTBk => _ctBk ??= GetCTBk();
+
+        private static BitmapImage GetCTBk()
+        {
+            if (_ctBk == null)
+            {
+                var image = new BitmapImage(new Uri("/Assets/379b0cd5b3b180d4092f3c556a0191d.png", UriKind.RelativeOrAbsolute));
+                return image;
+            }
+            return _ctBk;
+        }
     }
 
     public class DefectDefineV
