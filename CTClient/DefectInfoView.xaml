@@ -1,4 +1,4 @@
-﻿<UserControl
+<UserControl
     x:Class="CTClient.DefectInfoView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -103,8 +103,8 @@
                                 </Image>
                                 <Border
                                     Grid.Row="2"
-                                    Margin="0,4"
-                                    Padding="0,4"
+                                    Margin="0,6,0,0"
+                                    Padding="0,6"
                                     HorizontalAlignment="Stretch"
                                     CornerRadius="6">
                                     <Border.Background>
@@ -116,9 +116,10 @@
                                         FontSize="12"
                                         FontWeight="Bold">
                                         <TextBlock.Text>
-                                            <MultiBinding StringFormat="{}{0}    {1}">
+                                            <MultiBinding StringFormat="{}{0}  {1}  深度:{2:N2}mm">
                                                 <Binding Path="Position" />
                                                 <Binding Path="DefectTitle" />
+                                                <Binding Path="DefectDepth" />
                                             </MultiBinding>
                                         </TextBlock.Text>
                                         <TextBlock.Foreground>
@@ -126,20 +127,6 @@
                                         </TextBlock.Foreground>
                                     </TextBlock>
                                 </Border>
-                                <TextBlock
-                                    Grid.Row="3"
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center"
-                                    FontFamily="Segoe UI"
-                                    FontSize="14"
-                                    Foreground="#44546F">
-                                    <TextBlock.Text>
-                                        <MultiBinding StringFormat="{}宽度:{0:N2}mm  深度:{1:N2}mm">
-                                            <Binding Path="DefectWidth" />
-                                            <Binding Path="DefectDepth" />
-                                        </MultiBinding>
-                                    </TextBlock.Text>
-                                </TextBlock>
                             </Grid>
                         </Label>
                     </DataTemplate>
@@ -178,7 +165,6 @@
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto" />
                                     <RowDefinition Height="*" />
-                                    <RowDefinition Height="Auto" />
                                     <RowDefinition Height="Auto" />
                                 </Grid.RowDefinitions>
                                 <Grid Margin="0,0,0,6">
@@ -227,8 +213,8 @@
                                 </Image>
                                 <Border
                                     Grid.Row="2"
-                                    Margin="0,4"
-                                    Padding="0,4"
+                                    Margin="0,6,0,0"
+                                    Padding="0,6"
                                     HorizontalAlignment="Stretch"
                                     CornerRadius="6">
                                     <Border.Background>
@@ -240,9 +226,10 @@
                                         FontSize="12"
                                         FontWeight="Bold">
                                         <TextBlock.Text>
-                                            <MultiBinding StringFormat="{}{0}    {1}">
+                                            <MultiBinding StringFormat="{}{0}  {1}  深度:{2:N2}mm">
                                                 <Binding Path="Position" />
                                                 <Binding Path="DefectTitle" />
+                                                <Binding Path="DefectDepth" />
                                             </MultiBinding>
                                         </TextBlock.Text>
                                         <TextBlock.Foreground>
@@ -250,20 +237,6 @@
                                         </TextBlock.Foreground>
                                     </TextBlock>
                                 </Border>
-                                <TextBlock
-                                    Grid.Row="3"
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center"
-                                    FontFamily="Segoe UI"
-                                    FontSize="14"
-                                    Foreground="#44546F">
-                                    <TextBlock.Text>
-                                        <MultiBinding StringFormat="{}宽度:{0:N2}mm  深度:{1:N2}mm">
-                                            <Binding Path="DefectWidth" />
-                                            <Binding Path="DefectDepth" />
-                                        </MultiBinding>
-                                    </TextBlock.Text>
-                                </TextBlock>
                             </Grid>
                         </Label>
                     </DataTemplate>
