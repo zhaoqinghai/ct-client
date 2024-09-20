@@ -116,10 +116,14 @@
                         Width="156"
                         Source="{x:Static local:AppSettings.Logo}"
                         Stretch="Uniform" />
+                    <Rectangle
+                        Margin="6,0"
+                        Width="1"
+                        Height="22"
+                        Fill="#B3B9C4" />
                     <TextBlock
-                        Margin="4,0,0,0"
                         VerticalAlignment="Center"
-                        FontSize="24"
+                        FontSize="28"
                         FontStretch="SemiExpanded"
                         FontWeight="Bold"
                         Foreground="#22272B"
@@ -127,7 +131,7 @@
                     <TextBlock
                         Margin="12,0,0,0"
                         VerticalAlignment="Center"
-                        FontSize="20"
+                        FontSize="24"
                         FontStretch="SemiExpanded"
                         FontWeight="Bold"
                         Foreground="#738496"
