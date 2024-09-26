@@ -31,7 +31,7 @@ namespace CTService
 
             using (var mqttClient = mqttFactory.CreateMqttClient())
             {
-                var mqttClientOptions = new MqttClientOptionsBuilder().WithClientId(MQTT_CLIENT_ID).WithTcpServer(_settings.ServerIp, _settings.ServerPort).Build();
+                var mqttClientOptions = new MqttClientOptionsBuilder().WithTcpServer(_settings.ServerIp, _settings.ServerPort).Build();
                 mqttClient.ApplicationMessageReceivedAsync += e =>
                 {
                     try

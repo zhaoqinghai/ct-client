@@ -151,7 +151,6 @@ namespace CTClient
                     _logger.LogError("查询缺陷统计表格失败:{0}", t.Exception);
                     return;
                 }
-
                 App.Current.Dispatcher.Invoke(() =>
                 {
                     foreach (var shift in t.Result.CurrentShift)
