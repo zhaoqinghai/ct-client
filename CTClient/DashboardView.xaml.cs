@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Messaging;
+using ControlzEx.Standard;
 using CTCommonUI;
 using CTModel;
 using CTService;
@@ -17,6 +18,8 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Text.Encodings.Web;
+using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -151,39 +154,69 @@ namespace CTClient
                     _logger.LogError("查询缺陷统计表格失败:{0}", t.Exception);
                     return;
                 }
+                var options = new JsonSerializerOptions
+                {
+                    Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
+                };
+                _logger.LogInformation("get data: {0}", JsonSerializer.Serialize(new[] { t.Result.CurrentShift, t.Result.CurrentDay, t.Result.CurrentMonth }, options));
                 App.Current.Dispatcher.Invoke(() =>
                 {
-                    foreach (var shift in t.Result.CurrentShift)
+                    foreach (var report in Reports)
                     {
-                        foreach (var defect in shift.Value)
                         {
-                            UpdateReport(shift.Key, CycleType.Shift, defect.Key, defect.Value, CalcOperator.Assign);
+                            if (t.Result.CurrentShift.TryGetValue(report.Key, out var v))
+                            {
+                                foreach (var defect in v)
+                                {
+                                    UpdateReport(report.Key, CycleType.Shift, defect.Key, defect.Value, CalcOperator.Assign);
+                                }
+                            }
+                            else
+                            {
+                                report.Value.CurrentShift.LowCrack!.Count = 0;
+                                report.Value.CurrentShift.MediumCrack!.Count = 0;
+                                report.Value.CurrentShift.HighCrack!.Count = 0;
+                                report.Value.CurrentShift.Crease!.Count = 0;
+                            }
                         }
-                    }
-
-                    foreach (var day in t.Result.CurrentDay)
-                    {
-                        foreach (var defect in day.Value)
                         {
-                            UpdateReport(day.Key, CycleType.Day, defect.Key, defect.Value, CalcOperator.Assign);
+                            if (t.Result.CurrentDay.TryGetValue(report.Key, out var v))
+                            {
+                                foreach (var defect in v)
+                                {
+                                    UpdateReport(report.Key, CycleType.Day, defect.Key, defect.Value, CalcOperator.Assign);
+                                }
+                            }
+                            else
+                            {
+                                report.Value.CurrentDay.LowCrack!.Count = 0;
+                                report.Value.CurrentDay.MediumCrack!.Count = 0;
+                                report.Value.CurrentDay.HighCrack!.Count = 0;
+                                report.Value.CurrentDay.Crease!.Count = 0;
+                            }
+                        }
+
+                        {
+                            if (t.Result.CurrentMonth.TryGetValue(report.Key, out var v))
+                            {
+                                foreach (var defect in v)
+                                {
+                                    UpdateReport(report.Key, CycleType.Month, defect.Key, defect.Value, CalcOperator.Assign);
+                                }
+                            }
+                            else
+                            {
+                                report.Value.CurrentMonth.LowCrack!.Count = 0;
+                                report.Value.CurrentMonth.MediumCrack!.Count = 0;
+                                report.Value.CurrentMonth.HighCrack!.Count = 0;
+                                report.Value.CurrentMonth.Crease!.Count = 0;
+                            }
                         }
                     }
 
                     foreach (var report in Reports.Values)
                     {
                         DrawDayRaidoChart(report);
-                    }
-
-                    if (t.Result.CurrentDay.Count == 0)
-                    {
-                    }
-
-                    foreach (var month in t.Result.CurrentMonth)
-                    {
-                        foreach (var defect in month.Value)
-                        {
-                            UpdateReport(month.Key, CycleType.Month, defect.Key, defect.Value, CalcOperator.Assign);
-                        }
                     }
                 });
             });
