@@ -163,6 +163,7 @@ namespace CTClient
                 {
                     foreach (var report in Reports)
                     {
+                        report.Value.Reset();
                         {
                             if (t.Result.CurrentShift.TryGetValue(report.Key, out var v))
                             {
@@ -170,13 +171,6 @@ namespace CTClient
                                 {
                                     UpdateReport(report.Key, CycleType.Shift, defect.Key, defect.Value, CalcOperator.Assign);
                                 }
-                            }
-                            else
-                            {
-                                report.Value.CurrentShift.LowCrack!.Count = 0;
-                                report.Value.CurrentShift.MediumCrack!.Count = 0;
-                                report.Value.CurrentShift.HighCrack!.Count = 0;
-                                report.Value.CurrentShift.Crease!.Count = 0;
                             }
                         }
                         {
@@ -186,13 +180,6 @@ namespace CTClient
                                 {
                                     UpdateReport(report.Key, CycleType.Day, defect.Key, defect.Value, CalcOperator.Assign);
                                 }
-                            }
-                            else
-                            {
-                                report.Value.CurrentDay.LowCrack!.Count = 0;
-                                report.Value.CurrentDay.MediumCrack!.Count = 0;
-                                report.Value.CurrentDay.HighCrack!.Count = 0;
-                                report.Value.CurrentDay.Crease!.Count = 0;
                             }
                         }
 
@@ -204,19 +191,9 @@ namespace CTClient
                                     UpdateReport(report.Key, CycleType.Month, defect.Key, defect.Value, CalcOperator.Assign);
                                 }
                             }
-                            else
-                            {
-                                report.Value.CurrentMonth.LowCrack!.Count = 0;
-                                report.Value.CurrentMonth.MediumCrack!.Count = 0;
-                                report.Value.CurrentMonth.HighCrack!.Count = 0;
-                                report.Value.CurrentMonth.Crease!.Count = 0;
-                            }
                         }
-                    }
 
-                    foreach (var report in Reports.Values)
-                    {
-                        DrawDayRaidoChart(report);
+                        DrawDayRaidoChart(report.Value);
                     }
                 });
             });
@@ -531,6 +508,13 @@ namespace CTClient
 
         public partial class SpotReport : ObservableObject
         {
+            public void Reset()
+            {
+                CurrentShift.Reset();
+                CurrentDay.Reset();
+                CurrentMonth.Reset();
+            }
+
             public required string SpotTitle { get; init; }
 
             public required DefectReportVM CurrentShift { get; set; }

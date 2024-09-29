@@ -29,6 +29,29 @@ namespace CTClient
 
     public class DefectReportVM : ObservableObject
     {
+        public void Reset()
+        {
+            if (LowCrack != null)
+            {
+                LowCrack.Count = 0;
+            }
+
+            if (MediumCrack != null)
+            {
+                MediumCrack.Count = 0;
+            }
+
+            if (HighCrack != null)
+            {
+                HighCrack.Count = 0;
+            }
+
+            if (Crease != null)
+            {
+                Crease.Count = 0;
+            }
+        }
+
         public required string Title { get; set; }
 
         public DefectReportItem? LowCrack { get; set; }
