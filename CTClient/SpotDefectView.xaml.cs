@@ -127,8 +127,8 @@ namespace CTClient
                 var maxHeight = 0;
                 foreach (var item in _defectMapItems)
                 {
-                    minHeight = Math.Min(item.Height - 5, minHeight);
-                    maxHeight = Math.Max(item.Height + 9, maxHeight);
+                    minHeight = Math.Min(item.Height - 12, minHeight);
+                    maxHeight = Math.Max(item.Height + 16, maxHeight);
                     item.Height += 2;
                 }
 
@@ -156,7 +156,7 @@ namespace CTClient
                                 {
                                     circlePaint.Color = item.FillColor;
                                     circlePaint.IsAntialias = true;
-                                    canvas.DrawCircle(item.Alignment == HorizontalAlignment.Left ? 52 : width - 52, item.Height + 90, 5, circlePaint);
+                                    canvas.DrawCircle(item.Alignment == HorizontalAlignment.Left ? 52 : width - 52, item.Height + 90, 12, circlePaint);
                                 }
                             }
                             else if (item.Shape == Shape.Rectangle)

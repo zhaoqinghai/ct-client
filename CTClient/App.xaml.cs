@@ -56,7 +56,7 @@ namespace CTClient
             });
             svcs.AddSingleton<MainWindow>();
 
-            svcs.AddKeyedSingleton(RemindSpeechWorker.REMIND_SPEECH_CHANNEL, (_, _) => Channel.CreateBounded<string>(new BoundedChannelOptions(5)
+            svcs.AddKeyedSingleton(RemindSpeechWorker.REMIND_SPEECH_CHANNEL, (_, _) => Channel.CreateBounded<string>(new BoundedChannelOptions(2)
             {
                 FullMode = BoundedChannelFullMode.DropOldest,
                 SingleReader = true
