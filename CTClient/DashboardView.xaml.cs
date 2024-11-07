@@ -351,7 +351,6 @@ namespace CTClient
                 plot.HideGrid();
                 plot.Axes.Frameless();
                 var pie = plot.Add.Pie(slices);
-                pie.ShowSliceLabels = true;
                 pie.DonutFraction = .4;
                 pie.LineWidth = 0;
                 pie.LineColor = ScottPlot.Colors.Transparent;
