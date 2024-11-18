@@ -1,0 +1,34 @@
+﻿<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
+
+    <Package Name="CT Client" Manufacturer="yells" Version="1.0.0.1" ProductCode="ad882e51-6165-4a09-a721-7e6c4f74adbf" UpgradeCode="6be49ce0-7190-42c5-b25e-c5afb03c1cf7" Language="2052">
+        <MajorUpgrade DowngradeErrorMessage="!(loc.DowngradeError)" />
+        <MediaTemplate EmbedCab="yes" />
+        <ComponentGroupRef Id="DesktopShortcut" />
+        <ComponentGroupRef Id="AppComponents" />
+    </Package>
+    <Fragment>
+        <ComponentGroup Id="AppComponents" Directory="INSTALLFOLDER">
+            <Files Include="$(var.CTClient.ProjectDir)bin\Release\net8.0-windows\publish\**">
+                <Exclude Files="$(var.CTClient.ProjectDir)bin\Release\net8.0-windows\publish\**\*.pdb" />
+                <Exclude Files="$(var.CTClient.ProjectDir)bin\Release\net8.0-windows\publish\CTClient.exe" />
+                <Exclude Files="$(var.CTClient.ProjectDir)bin\Release\net8.0-windows\publish\Logs\" />
+                <Exclude Files="$(var.CTClient.ProjectDir)bin\Release\net8.0-windows\publish\appsettings.development.json" />
+            </Files>
+        </ComponentGroup>
+    </Fragment>
+    <Fragment>
+        <ComponentGroup Id="DesktopShortcut" Directory="INSTALLFOLDER">
+            <Component>
+                <File Source="$(var.CTClient.ProjectDir)bin\Release\net8.0-windows\publish\CTClient.exe">
+                    <Shortcut Advertise="yes"
+                              Icon ="Setup_Logo.ico"
+                              Directory="DesktopFolder"
+                              Name="边裂仪" />
+                </File>
+            </Component>
+        </ComponentGroup>
+    </Fragment>
+    <Fragment>
+        <Icon Id="Setup_Logo.ico" SourceFile="$(var.CTClient.ProjectDir)bin\Release\net8.0-windows\Logo.ico" />
+    </Fragment>
+</Wix>

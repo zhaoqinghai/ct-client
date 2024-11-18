@@ -1,0 +1,8 @@
+<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
+    <Fragment>
+        <!--<Directory Id="INSTALL_DIR" Name="!(bind.Property.Manufacturer)\!(bind.Property.ProductName)" />-->
+        <Directory Id="INSTALL_DIR">
+            <Directory Id="INSTALLFOLDER" Name="!(bind.Property.Manufacturer)\!(bind.Property.ProductName)" />
+        </Directory>
+    </Fragment>
+</Wix>

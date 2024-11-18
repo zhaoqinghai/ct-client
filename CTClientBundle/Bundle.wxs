@@ -1,0 +1,21 @@
+﻿<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs"
+     xmlns:bal="http://wixtoolset.org/schemas/v4/wxs/bal">
+    <Bundle Name="CT_Client_Installer" Manufacturer="yells" Version="1.0.0.1" UpgradeCode="82650b7f-5320-4108-9418-cd4190feb8b7">
+
+        <BootstrapperApplication SourceFile="$(var.CT.InstallerUI.ProjectDir)bin\Debug\net8.0-windows\CT.InstallerUI.exe">
+            <Payload SourceFile="$(var.CT.InstallerUI.ProjectDir)bin\x64\Debug\net8.0-windows\win-x64\CT.InstallerUI.dll" Name="CT.InstallerUI.dll" bal:BAFactoryAssembly="yes" />
+            <Payload SourceFile="$(var.CT.InstallerUI.ProjectDir)bin\x64\Debug\net8.0-windows\win-x64\CT.InstallerUI.deps.json" Name="CT.InstallerUI.deps.json" />
+            <Payload SourceFile="$(var.CT.InstallerUI.ProjectDir)bin\x64\Debug\net8.0-windows\win-x64\CT.InstallerUI.runtimeconfig.json" Name="CT.InstallerUI.runtimeconfig.json" />
+            <Payload SourceFile="$(var.CT.InstallerUI.ProjectDir)bin\x64\Debug\net8.0-windows\win-x64\mbanative.dll" Name="mbanative.dll" />
+            <Payload SourceFile="$(var.CT.InstallerUI.ProjectDir)bin\x64\Debug\net8.0-windows\win-x64\WixToolset.BootstrapperApplicationApi.dll" Name="WixToolset.BootstrapperApplicationApi.dll" />
+        </BootstrapperApplication>
+
+        <Variable Name="Install_Dir" Persisted="yes" />
+        <Variable Name="INSTALL_CTCLIENT_PACKAGE" Type="numeric" Value="0" />
+        <Chain>
+            <MsiPackage SourceFile="..\CTClientMsi\bin\x64\Debug\zh-CN\CTClientMsi.msi" InstallCondition="INSTALL_CTCLIENT_PACKAGE = 1">
+                <MsiProperty Name="INSTALL_DIR" Value="[Install_Dir]" />
+            </MsiPackage>
+        </Chain>
+    </Bundle>
+</Wix>

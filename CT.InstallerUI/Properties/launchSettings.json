@@ -1,0 +1,13 @@
+{
+  "profiles": {
+    "CT.InstallerUI": {
+      "commandName": "Project",
+      "commandLineArgs": "C:\\Users\\25019\\Documents\\GitHub\\ct-client\\CTClientBundle\\bin\\x64\\Debug\\CTClientBundle.exe"
+    },
+    "CT.BUNDLE": {
+      "commandName": "Executable",
+      "executablePath": "C:\\Users\\25019\\Documents\\GitHub\\ct-client\\CTClientBundle\\bin\\x64\\Debug\\CTClientBundle.exe",
+      "nativeDebugging": true
+    }
+  }
+}
